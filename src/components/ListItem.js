@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { FaTrash } from "react-icons/fa";
+import List from "./List";
 import ListIcon from "./ListIcon";
-import NewList from "./NewList";
 
-const ListItem = ({ item, onDelete, parent }) => {
+const ListItem = ({ item, onDelete, parent, level }) => {
+  level = level++;
   const e = item;
   const [toggleList, setToggle] = useState({});
   const [toggleKey, setToggleKey] = useState("");
@@ -25,11 +26,11 @@ const ListItem = ({ item, onDelete, parent }) => {
   };
 
   const deletekey = async (p, e) => {
-    console.log("Parent", p, "\nKey", e);
+    // console.log("Parent", p, "\nKey", e);
     // setDeleteToggle(!toggleDelete);
-    let delKey = p ? `${p}.${e}` : e;
-    console.log("Delete path -->", delKey);
-    onDelete({ delKey });
+    // let delKey = p ? `${p}.${e}` : e;
+    // console.log("Delete path -->", delKey);
+    onDelete({ delKey: e });
   };
 
   return (
@@ -47,15 +48,17 @@ const ListItem = ({ item, onDelete, parent }) => {
             fontSize: "0.75rem",
           }}
           onClick={() => {
+            console.log("level ------------>", level);
             const delKey = parent ? parent : "";
-            deletekey(delKey, e.name);
+            deletekey(delKey, e.id);
           }}
         />
         {toggleList[e.id] ? (
-          <NewList
+          <List
             list={e.childs}
             onDelete={onDelete}
             parent={parent ? `${parent}.${e.id}` : e.id}
+            level={level}
           />
         ) : null}
       </li>

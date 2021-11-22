@@ -53,9 +53,7 @@ const AddItem = ({ parents, onAdd }) => {
               Select
             </option>
             <option value="parent">Parent</option>
-            {Object.keys(parents).length && (
-              <option value="child">Child</option>
-            )}
+            {parents.length && <option value="child">Child</option>}
           </select>
         </div>
         {parents.length

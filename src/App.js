@@ -12,15 +12,12 @@ function App() {
 
   useEffect(() => {
     const getData = async () => {
-      console.log(`*******************************************`);
       const data = await fetchData();
-      console.log("🚀 ~ file: App.js ~ line 17 ~ getData ~ data", data);
       setData(data);
       const newParents = [];
       data.forEach((e) => {
         newParents.push(e);
       });
-      // console.log("🚀 ~ file: App.js ~ line 22 ~ data.forEach ~ newParents", newParents)
       setParents(newParents);
     };
 
@@ -67,52 +64,42 @@ function App() {
 
     const data = await fetchData();
     setData(data);
-    const newParents = {};
-    for (let key in data) {
-      newParents[key] = "";
-    }
+    const newParents = [];
+    data.forEach((e) => {
+      newParents.push(e);
+    });
     setParents(newParents);
   };
 
   const onDelete = async (obj) => {
-    console.log(obj.delKey);
-    console.log(dataList);
-    const accessKey = obj.delKey.split(".");
-    const accessLen = accessKey.length;
-    console.log("accessKey", accessKey);
-    let st = "";
-    for (let i = 0; i < accessLen; i++) {
-      console.log(i);
-      console.log(accessKey[i]);
-      st += `[${accessKey[i]}]`;
+    // console.log(obj);
+    // console.log(dataList);
+    const data1 = dataList.filter((e) => String(e.id) === String(obj.delKey));
+    if (data1.length) {
+      // await fetch(`http://localhost:5000/list/${obj.delKey}`, {
+      //   method: "DELETE",
+      // });
+      alert(`Contains multiple child`);
+    } else {
+      const data2 = dataList.map((e) => {
+        return e.childs.filter((c) => String(c.id) === String(obj.delKey));
+      });
+      console.log("🚀 ~ file: App.js ~ line 86 ~ onDelete ~ data2", data2);
+      // await fetch(`http://localhost:5000/list`, {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(createObj),
+      // });
     }
-    console.log([st]);
-    console.log([accessKey[0]], [accessKey[1]]);
-    console.log(dataList[st]);
-    console.log(dataList[accessKey[0]][accessKey[1]]);
-    console.log(Object.keys(dataList.accessKey).length);
+
+    const data = await fetchData();
+    setData(data);
+    const newParents = [];
+    data.forEach((e) => {
+      newParents.push(e);
+    });
+    setParents(newParents);
     // openModal();
-    // if (obj.heirarchy === "parent") {
-    //   dataList[obj.text] = {};
-    // } else {
-    //   dataList[obj.parent][obj.text] = {};
-    // }
-
-    // const res = await fetch(`http://localhost:5000/list`, {
-    //   method: "PUT",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(dataList),
-    // });
-    // await res.json();
-    // // setData(resData);
-
-    // const data = await fetchData();
-    // setData(data);
-    // const newParents = {};
-    // for (let key in data) {
-    //   newParents[key] = "";
-    // }
-    // setParents(newParents);
   };
 
   return (
@@ -121,7 +108,7 @@ function App() {
       <AddItem parents={parents} onAdd={addNewkey} />
       <TreeList data={dataList} onDelete={onDelete} />
       {showModal ? (
-        <Modal className="modal" show={showModal} close={openModal}></Modal>
+        <Modal className="modal" show={showModal} close={openModal} />
       ) : null}
     </div>
   );
