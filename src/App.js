@@ -47,18 +47,23 @@ function App() {
     };
 
     if (obj.heirarchy === "parent") {
-      dataList.push(createObj);
+      await fetch(`http://localhost:5000/list`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(createObj),
+      });
     } else {
-      dataList[obj.parent].push();
-    }
+      const newData = dataList.filter(
+        (e) => String(obj.parent) === String(e.id)
+      )[0];
 
-    const res = await fetch(`http://localhost:5000/list`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(dataList),
-    });
-    await res.json();
-    // setData(resData);
+      newData.childs.push(createObj);
+      await fetch(`http://localhost:5000/list/${obj.parent}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newData),
+      });
+    }
 
     const data = await fetchData();
     setData(data);
