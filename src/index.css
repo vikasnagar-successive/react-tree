@@ -1,0 +1,35 @@
+.header {
+  text-align: center;
+  border-bottom: 1px solid black;
+}
+
+.form-control {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.add-form {
+  margin-top: 20px;
+  padding: 10px 20px;
+}
+
+.btn {
+  float: right;
+}
+
+input,
+select {
+  margin-left: 15px;
+}
+
+.list {
+  margin: 20px;
+  padding: 10px 20px;
+}
+
+fatrash {
+  cursor: "pointer";
+  float: "right";
+  margin-right: "10rem";
+  font-size: "0.80rem";
+}
